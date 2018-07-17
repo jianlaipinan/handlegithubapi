@@ -1,6 +1,7 @@
 # _*_ coding:utf8 _*_
 import os
 import time
+
 try:
     import requests
 except ImportError as e:
@@ -12,6 +13,7 @@ except ImportError as e:
         if 'requests' in list:
             break
 import json
+
 base_url = 'https://api.github.com'
 username = 'hw121298@163.com'
 userpwd = '!QAZ2wsx'
@@ -41,12 +43,14 @@ def json_request():
     print(response.status_code)
 
 
-def merge_request_method(merge_url, head, base):
+def merge_request_method(merge_url, head):
     # merge 当前分支到主分支
-    response = requests.post(merge_url, auth=(username, userpwd),
-                             json={"accept": "application/vnd.github.polaris-preview", "base": base, "head": head,
-                                   "merge_method": "rebase"})
-    if response.status_code == 201:
+    response = requests.put(merge_url, auth=(username, userpwd),
+                            json={"commit_title": "this is commit test",
+                                  "commit_message": "this is add commit test",
+                                  "sha": head,
+                                  "merge_method": "rebase"})
+    if response.status_code == 200:
         print('merge sueecss')
     return response.status_code
 
@@ -55,14 +59,16 @@ def jianlaipinan_acrn_request():
     # 解析json数据
     pulls_data = json.loads(carn_pulls_info())
     for i in range(0, len(pulls_data)):
-        merge_url = pulls_data[i]['base']['repo']['merges_url']
+        url = pulls_data[i]['url'] + '/merge'
+        # merge_url = pulls_data[i]['base']['repo']['merges_url']
         head = pulls_data[i]['head']['sha']
         base = pulls_data[i]['base']['ref']
-        print(merge_url + '\n' + head + '\n' + base)
-        status_code = merge_request_method(merge_url, head, base)
-        print(status_code)
+
+        print(url + '\n' + head + '\n' + base)
+        status_code = merge_request_method(url, head)
+        # print(status_code)
 
 
 if __name__ == '__main__':
-    # jianlaipinan_acrn_request()
-    json_request()
+    jianlaipinan_acrn_request()
+    # json_request()
