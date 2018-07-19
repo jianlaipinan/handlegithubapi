@@ -34,3 +34,5 @@ Status: 200 OK
   "message": "Pull Request successfully merged"
 }
 
+# rebase and merge 另一份资料
+https://developer.github.com/changes/2016-09-26-pull-request-merge-api-update/
