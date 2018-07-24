@@ -36,3 +36,6 @@ Status: 200 OK
 
 # rebase and merge 另一份资料
 https://developer.github.com/changes/2016-09-26-pull-request-merge-api-update/
+
+# pullRequest没有提交前的comments代码实现提交
+https://developer.github.com/v3/issues/comments/
